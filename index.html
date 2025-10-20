@@ -90,7 +90,7 @@
         const messagesContainer = document.getElementById('messages');
         const input = document.getElementById('input');
         const sendBtn = document.getElementById('send');
-        let processes = {}; // 存储所有工序：{名称: [时间, [前置工序1, 前置工序2...]]}
+        let processes = {}; // 存储所有工序：{名称: [时间(秒), [前置工序1, 前置工序2...]]}
 
         // 显示消息
         function showMessage(content, isUser = false) {
@@ -106,7 +106,7 @@
             if (Object.keys(processes).length === 0) return '';
             let list = '<div class="process-list">已添加工序：<br>';
             Object.entries(processes).forEach(([name, [time, pres]]) => {
-                list += `- ${name}（耗时${time}分钟，前置：${pres.length > 0 ? pres.join('、') : '无'}）<br>`;
+                list += `- ${name}（耗时${time}秒，前置：${pres.length > 0 ? pres.join('、') : '无'}）<br>`;
             });
             list += '</div>';
             return list;
@@ -228,10 +228,10 @@
                 if (result) {
                     showMessage(`
                     🔍 瓶颈工序分析结果：<br>
-                    1. 总生产时间：${result.totalTime} 分钟<br>
+                    1. 总生产时间：${result.totalTime} 秒<br>
                     2. 关键路径（最长生产路径）：${result.criticalPath}<br>
                     3. 瓶颈工序：${result.bottleneck}<br>
-                    4. 瓶颈耗时：${result.bottleneckTime} 分钟<br>
+                    4. 瓶颈耗时：${result.bottleneckTime} 秒<br>
                     💡 建议：优先优化瓶颈工序以提升整体产能。
                     `);
                     // 分析后清空，方便重新输入
@@ -283,7 +283,7 @@
             processes[name] = [time, predecessors];
             showMessage(`✅ 已添加工序：<br>
             名称：${name}<br>
-            时间：${time} 分钟<br>
+            时间：${time} 秒<br>
             前置工序：${predecessors.length > 0 ? predecessors.join('、') : '无'}<br>
             ${showProcessList()}<br>
             可继续添加其他工序，完成后发送“开始分析”。`);
@@ -297,7 +297,7 @@
 
         // 初始化欢迎消息
         window.onload = () => {
-            showMessage('你好！请逐条输入生产工序，每条工序格式为：<br>工序名称,工序时间,前置工序1,前置工序2...<br>（无前置工序可留空，例如“注塑灯座,5”）<br>所有工序输入完成后，发送“开始分析”即可得到结果。');
+            showMessage('你好！请逐条输入生产工序，每条工序格式为：<br>工序名称,工序时间(秒),前置工序1,前置工序2...<br>（无前置工序可留空，例如“注塑灯座,5”）<br>所有工序输入完成后，发送“开始分析”即可得到结果。');
         };
     </script>
 </body>
